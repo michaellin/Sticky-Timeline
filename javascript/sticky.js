@@ -81,10 +81,13 @@ $(function(){
       return todo.get('order');
     }
 
+    // Returns two values representing the max and min dates
     dateRange: function() {
-      
+      return {
+	maxDate: new Date(Math.max.apply(null, this)),
+	minDate: new Date(Math.min.apply(null, this)) 
+      }
     }
-      
 
   });
 
