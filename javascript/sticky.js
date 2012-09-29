@@ -1,3 +1,5 @@
+// -*- js-indent-level: 2 -*-
+
 // An example Backbone application contributed by [JÃ©rÃ´me
 // Gravel-Niquet](http://jgn.me/). Edited for use in our sticky note
 // timeline project by Kenneth Lin, Justin Eng, and Michael Lin. Uses
@@ -10,23 +12,26 @@ $(function(){
   // Sticky Model
   // ----------
 
-  // Our basic **Sticky** model has `title`, `order`, and `done` attributes.
+  // Our basic **Sticky** model has `content`, `order`, and `done` attributes.
   var Sticky = Backbone.Model.extend({
 
     // Default attributes for the todo item.
     defaults: function() {
       return {
-        title: "empty todo...",
-        order: Stickys.nextOrder(),
+        content: "empty todo...",
+	date: "to be initialized",
+        // order: Stickys.nextOrder(),
         done: false
       };
     },
 
-    // Ensure that each todo created has `title`.
+    // Ensure that each todo created has the current time stamped on.
     initialize: function() {
-      if (!this.get("title")) {
-        this.set({"title": this.defaults.title});
-      }
+	// don't need to ensure it has a content
+      // if (!this.get("content")) {
+      //   this.set({"content": this.defaults.content});
+      // }
+      this.set({"date": new Date()});
     },
 
     // Toggle the `done` state of this todo item.
@@ -46,7 +51,7 @@ $(function(){
 
   // The collection of todos is backed by *localStorage* instead of a remote
   // server.
-  var StickyList = Backbone.Collection.extend({
+  var TimeLine = Backbone.Collection.extend({
 
     // Reference to this collection's model.
     model: Sticky,
@@ -76,10 +81,15 @@ $(function(){
       return todo.get('order');
     }
 
+    dateRange: function() {
+      
+    }
+      
+
   });
 
   // Create our global collection of **Stickys**.
-  var Stickys = new StickyList;
+  var Stickys = new TimeLine;
 
   // Sticky Item View
   // --------------
@@ -110,7 +120,7 @@ $(function(){
       this.model.bind('destroy', this.remove, this);
     },
 
-    // Re-render the titles of the todo item.
+    // Re-render the contents of the todo item.
     render: function() {
       this.$el.html(this.template(this.model.toJSON()));
       this.$el.toggleClass('done', this.model.get('done'));
@@ -133,7 +143,7 @@ $(function(){
     close: function() {
       var value = this.input.val();
       if (!value) this.clear();
-      this.model.save({title: value});
+      this.model.save({content: value});
       this.$el.removeClass("editing");
     },
 
@@ -223,7 +233,7 @@ $(function(){
       if (e.keyCode != 13) return;
       if (!this.input.val()) return;
 
-      Stickys.create({title: this.input.val()});
+      Stickys.create({content: this.input.val()});
       this.input.val('');
     },
 
