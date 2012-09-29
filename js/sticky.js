@@ -7,17 +7,17 @@
 // Load the application once the DOM is ready, using `jQuery.ready`:
 $(function(){
 
-  // Todo Model
+  // Sticky Model
   // ----------
 
-  // Our basic **Todo** model has `title`, `order`, and `done` attributes.
-  var Todo = Backbone.Model.extend({
+  // Our basic **Sticky** model has `title`, `order`, and `done` attributes.
+  var Sticky = Backbone.Model.extend({
 
     // Default attributes for the todo item.
     defaults: function() {
       return {
         title: "empty todo...",
-        order: Todos.nextOrder(),
+        order: Stickys.nextOrder(),
         done: false
       };
     },
@@ -34,22 +34,22 @@ $(function(){
       this.save({done: !this.get("done")});
     },
 
-    // Remove this Todo from *localStorage* and delete its view.
+    // Remove this Sticky from *localStorage* and delete its view.
     clear: function() {
       this.destroy();
     }
 
   });
 
-  // Todo Collection
+  // Sticky Collection
   // ---------------
 
   // The collection of todos is backed by *localStorage* instead of a remote
   // server.
-  var TodoList = Backbone.Collection.extend({
+  var StickyList = Backbone.Collection.extend({
 
     // Reference to this collection's model.
-    model: Todo,
+    model: Sticky,
 
     // Save all of the todo items under the `"todos"` namespace.
     localStorage: new Store("todos-backbone"),
@@ -64,28 +64,28 @@ $(function(){
       return this.without.apply(this, this.done());
     },
 
-    // We keep the Todos in sequential order, despite being saved by unordered
+    // We keep the Stickys in sequential order, despite being saved by unordered
     // GUID in the database. This generates the next order number for new items.
     nextOrder: function() {
       if (!this.length) return 1;
       return this.last().get('order') + 1;
     },
 
-    // Todos are sorted by their original insertion order.
+    // Stickys are sorted by their original insertion order.
     comparator: function(todo) {
       return todo.get('order');
     }
 
   });
 
-  // Create our global collection of **Todos**.
-  var Todos = new TodoList;
+  // Create our global collection of **Stickys**.
+  var Stickys = new StickyList;
 
-  // Todo Item View
+  // Sticky Item View
   // --------------
 
   // The DOM element for a todo item...
-  var TodoView = Backbone.View.extend({
+  var StickyView = Backbone.View.extend({
 
     //... is a list tag.
     tagName:  "li",
@@ -102,8 +102,8 @@ $(function(){
       "blur .edit"      : "close"
     },
 
-    // The TodoView listens for changes to its model, re-rendering. Since there's
-    // a one-to-one correspondence between a **Todo** and a **TodoView** in this
+    // The StickyView listens for changes to its model, re-rendering. Since there's
+    // a one-to-one correspondence between a **Sticky** and a **StickyView** in this
     // app, we set a direct reference on the model for convenience.
     initialize: function() {
       this.model.bind('change', this.render, this);
@@ -169,7 +169,7 @@ $(function(){
       "click #toggle-all": "toggleAllComplete"
     },
 
-    // At initialization we bind to the relevant events on the `Todos`
+    // At initialization we bind to the relevant events on the `Stickys`
     // collection, when items are added or changed. Kick things off by
     // loading any preexisting todos that might be saved in *localStorage*.
     initialize: function() {
@@ -177,23 +177,23 @@ $(function(){
       this.input = this.$("#new-todo");
       this.allCheckbox = this.$("#toggle-all")[0];
 
-      Todos.bind('add', this.addOne, this);
-      Todos.bind('reset', this.addAll, this);
-      Todos.bind('all', this.render, this);
+      Stickys.bind('add', this.addOne, this);
+      Stickys.bind('reset', this.addAll, this);
+      Stickys.bind('all', this.render, this);
 
       this.footer = this.$('footer');
       this.main = $('#main');
 
-      Todos.fetch();
+      Stickys.fetch();
     },
 
     // Re-rendering the App just means refreshing the statistics -- the rest
     // of the app doesn't change.
     render: function() {
-      var done = Todos.done().length;
-      var remaining = Todos.remaining().length;
+      var done = Stickys.done().length;
+      var remaining = Stickys.remaining().length;
 
-      if (Todos.length) {
+      if (Stickys.length) {
         this.main.show();
         this.footer.show();
         this.footer.html(this.statsTemplate({done: done, remaining: remaining}));
@@ -208,34 +208,34 @@ $(function(){
     // Add a single todo item to the list by creating a view for it, and
     // appending its element to the `<ul>`.
     addOne: function(todo) {
-      var view = new TodoView({model: todo});
+      var view = new StickyView({model: todo});
       this.$("#todo-list").append(view.render().el);
     },
 
-    // Add all items in the **Todos** collection at once.
+    // Add all items in the **Stickys** collection at once.
     addAll: function() {
-      Todos.each(this.addOne);
+      Stickys.each(this.addOne);
     },
 
-    // If you hit return in the main input field, create new **Todo** model,
+    // If you hit return in the main input field, create new **Sticky** model,
     // persisting it to *localStorage*.
     createOnEnter: function(e) {
       if (e.keyCode != 13) return;
       if (!this.input.val()) return;
 
-      Todos.create({title: this.input.val()});
+      Stickys.create({title: this.input.val()});
       this.input.val('');
     },
 
     // Clear all done todo items, destroying their models.
     clearCompleted: function() {
-      _.each(Todos.done(), function(todo){ todo.clear(); });
+      _.each(Stickys.done(), function(todo){ todo.clear(); });
       return false;
     },
 
     toggleAllComplete: function () {
       var done = this.allCheckbox.checked;
-      Todos.each(function (todo) { todo.save({'done': done}); });
+      Stickys.each(function (todo) { todo.save({'done': done}); });
     }
 
   });
