@@ -19,18 +19,19 @@ $(function(){
     defaults: function() {
       return {
         content: "empty todo...",
-	date: 
+	date: "to be initialized",
         // order: Stickys.nextOrder(),
         done: false
       };
     },
 
-    // Ensure that each todo created has `content`.
+    // Ensure that each todo created has the current time stamped on.
     initialize: function() {
 	// don't need to ensure it has a content
       // if (!this.get("content")) {
       //   this.set({"content": this.defaults.content});
       // }
+      this.set({"date": new Date()});
     },
 
     // Toggle the `done` state of this todo item.
