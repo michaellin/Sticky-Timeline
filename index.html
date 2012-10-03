@@ -19,31 +19,28 @@
     .buttons {
         position: relative;
         left: 50%;
-    }
+        }
     .divtext {
         background-color: transparent;
         width: 99%;
         height: 49%;
-        padding: 0.5%
+        padding: 0.5%;
+        }
+    .bars {
+        width: 50%;
+        background: transparent;
         }
 
 </style>
 
 <script src="note.js"></script>
 <script type="text/javascript">
-    $(document).ready(function(){
+    $(function(){
         $(".draggables").draggable({ snap : true });
-        $(".buttons").button();
-        $(".buttons").click(
-                function() {
-                    $('container').append(
-                    "<div id='test' class='draggables'> "
-                    + "<textarea class='divtext'></textarea></div>");
-                    $(document).ready(function() {
-                        $(".draggables").draggable();
-                        });
-                    });
-                });
+        $(".bars").progressbar({
+            value: 0
+            }).draggable();
+        });
 </script>
 </head>
 
@@ -51,13 +48,19 @@
 
 <h1> Testing </h1>
 <button class="buttons">
-    <span class="buttons-text"> New Sticky</span>
+    <span class="buttons-text"> Progressl!</span>
 </button>
+<div class="many-buttons">
+    <button class="buttons1">
+        <span class="buttons-text"> Clone Myself</span>
+    </button>
+</div>
 <div class="container">
     <div id="default" class="draggables">
         <textarea class="divtext"></textarea>
     </div>
 </div>
+<div id="stbar" class="bars"></div>
 </body>
 
 </html>
