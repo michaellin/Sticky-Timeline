@@ -2,38 +2,65 @@
 <html>
 
 <head>
+<link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js" type="text/javascript"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
 <script src="javascript/effetcs/prototype.js" type="text/javascript"></script>
 <script src="javascript/effetcs/scriptaculous.js" type="text/javascript"></script>
+
 <style>
-    #test1 {
-        width: 500px;
-        height: 500px;
+    .draggables {
+        width: 100px;
+        height: 100px;
         background: #7baaed;
         padding: 2px 3px 2px 2px;
         border: 1px solid #333;
         }
-    #divtext {
+    .buttons {
+        position: relative;
+        left: 50%;
+        }
+    .divtext {
         background-color: transparent;
         width: 99%;
-        height: 99%;
-        padding: 0.5%
+        height: 49%;
+        padding: 0.5%;
+        }
+    .bars {
+        width: 50%;
+        background: transparent;
         }
 
 </style>
+
+<script src="note.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $(".draggables").draggable({ snap : true });
+        $(".bars").progressbar({
+            value: 0
+            }).draggable();
+        });
+</script>
 </head>
 
 <body>
 
-<h1> Testing Scriptaculous </h1>
-<div id="test1">
-    <textarea id="divtext"></textarea>
+<h1> Testing </h1>
+<button class="buttons">
+    <span class="buttons-text"> Progressl!</span>
+</button>
+<div class="many-buttons">
+    <button class="buttons1">
+        <span class="buttons-text"> Clone Myself</span>
+    </button>
 </div>
-    <script type="text/javascript" language="javascript">
-    // <![CDATA[
-      new Draggable('test1')
-    // ]]>
-    </script>
-
+<div class="container">
+    <div id="default" class="draggables">
+        <textarea class="divtext"></textarea>
+    </div>
+</div>
+<div id="stbar" class="bars"></div>
 </body>
 
 </html>
