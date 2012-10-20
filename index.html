@@ -17,8 +17,8 @@
     <div class="navbar-inner">
       <a class="brand" href="#"> NotesIm </a>
       <ul class="nav">
-	<li><a class="username" href="#"> # USERNAME # </a></li>
-	<li><a class="mode" href="#"> # MODE # </a></li>
+	<li class="username"><a href="#"> # USERNAME # </a></li>
+	<li class="mode"><a href="#" onclick="dropDown('.mode')"> # MODE # </a></li>
       </ul>
     </div>
   </div>
@@ -29,6 +29,12 @@
   <script type="text/javascript" src="javascript/underscore-1.3.1.js"></script>
   <script type="text/javascript" src="javascript/backbone.js"></script>
   <script type="text/javascript" src="javascript/backbone-localstorage.js"></script>
+
+  <script type="text/javascript">
+    function dropDown(j) {
+      $(j).animate({ height: "200px" }, "slow", "swing");
+    }
+  </script>
 
 </body>
 
