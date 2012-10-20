@@ -1,7 +1,33 @@
 /* === Navigation bar === */
 .navbar .brand {
     margin: auto;
-    color: #fff;
+    color: #CEF6F5;
     font-family: "Marcellus SC", sans-serif;
+    text-shadow: 1px 1px 1px #f5f5f5;
+}
+
+.navbar .navbar-inner .nav {
+    float: right;
+}
+
+.navbar .navbar-inner .nav li {
+    font-size: 12px;
+}
+
+.navbar .navbar-inner .nav .username > a {
+    color: #fff;
+}
+
+.navbar .navbar-inner .nav .mode {
+    background: #fff center center no-repeat;
+    margin-top: -8px;
+    margin-bottom: 8px;
+    border-radius: 5px;
+}
+
+.navbar .navbar-inner .nav .mode > a {
+    color: #333;
+    margin-top: 8px;
+    margin-bottom: -8px;
 }
 
